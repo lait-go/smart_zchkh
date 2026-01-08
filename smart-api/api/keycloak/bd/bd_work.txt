@@ -1,0 +1,3 @@
+docker exec -it postgres psql -U postgres    - подключение к бд с терминала(пароль secret)
+
+postgresql://postgres:secret@localhost:5432/postgres

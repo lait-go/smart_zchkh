@@ -1,0 +1,55 @@
+services:
+  smart-api:
+    build:
+      context: ./smart-api
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./smart-api:/app
+
+  auth-api:
+    build:
+      context: ./auth-api
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8082:8082"
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./auth-api:/app
+
+  charge-service:
+    build:
+      context: ./admin-api/charge_service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "7070:7070"
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./admin-api/charge_service:/app
+
+  task-service:
+    build:
+      context: ./admin-api/task_service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8081:8081"
+    working_dir: /app
+    command: go run cmd/main.go
+    volumes:
+      - ./admin-api/task_service:/app
+
+  smart-zhkh:
+    image: node:20
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./smart-zhkh:/app
+    environment:
+      - NODE_ENV=development
